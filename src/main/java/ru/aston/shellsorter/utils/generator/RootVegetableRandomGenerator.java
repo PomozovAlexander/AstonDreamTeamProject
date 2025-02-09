@@ -4,6 +4,7 @@ import ru.aston.shellsorter.model.RootVegetable;
 
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * RootVegetable generator
@@ -61,6 +62,16 @@ public class RootVegetableRandomGenerator implements RandomGenerator<RootVegetab
                 .setWeight(weight)
                 .setColor(color)
                 .build();
+    }
+
+    /**
+     * Generates a new {@link RootVegetable} array.
+     *
+     * @return a generated {@link RootVegetable} array.
+     */
+    @Override
+    public RootVegetable[] generateArray(int length) {
+        return Stream.generate(this::generate).limit(length).toArray(RootVegetable[]::new);
     }
 
     /**
