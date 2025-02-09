@@ -42,10 +42,11 @@ public class Book implements Comparable<Book> {
      */
     @Override
     public int compareTo(Book other) {
-        int cmp = Integer.compare(this.pages, other.pages);
+        int   cmp = this.title.compareTo(other.title); //
         if (cmp == 0) {
             cmp = this.author.compareTo(other.author);
             if (cmp == 0) {
+                cmp = Integer.compare(this.pages, other.pages);
                 cmp = this.title.compareTo(other.title);
             }
         }

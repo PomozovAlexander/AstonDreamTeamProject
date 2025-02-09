@@ -47,26 +47,26 @@ public class App {
                 .build();
 
         Book book2 = new Book.Builder()
-                .setAuthor("Mark Twain")
+                .setAuthor("Twain")
                 .setTitle("The American Claimant")
                 .setPages(296)
                 .build();
 
 
         Book book3 = new Book.Builder()
-                .setAuthor("Gabriel Garcia Marquez")
+                .setAuthor("Marquez")
                 .setTitle("One Hundred Years of Solitude")
                 .setPages(291)
                 .build();
 
         Book book4 = new Book.Builder()
-                .setAuthor("F. Scott Fitzgerald")
+                .setAuthor("Fitzgerald")
                 .setTitle("The Great Gatsby")
                 .setPages(426)
                 .build();
 
         Book book5 = new Book.Builder()
-                .setAuthor("Marcel Proust")
+                .setAuthor("Proust")
                 .setTitle("In Search of Lost Time")
                 .setPages(638)
                 .build();
