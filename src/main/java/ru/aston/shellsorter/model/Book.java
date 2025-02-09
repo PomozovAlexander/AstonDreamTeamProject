@@ -10,7 +10,7 @@ import java.util.Objects;
  * Comparison (Comparable) is performed first by pages, then by author, and finally by title.
  * </p>
  */
-public class Book implements Comparable<Book> {
+public final class Book implements Comparable<Book> {
     private final String author;
     private final String title;
     private final int pages;
