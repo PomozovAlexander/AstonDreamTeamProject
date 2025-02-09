@@ -38,16 +38,15 @@ public class Book implements Comparable<Book> {
      *
      * @param other the book to compare with
      * @return a negative integer, zero, or a positive integer as this book
-     *         is less than, equal to, or greater than the specified book
+     * is less than, equal to, or greater than the specified book
      */
     @Override
     public int compareTo(Book other) {
-        int   cmp = this.title.compareTo(other.title); //
+        int cmp = this.author.compareTo(other.author);
         if (cmp == 0) {
-            cmp = this.author.compareTo(other.author);
+            cmp = this.title.compareTo(other.title);
             if (cmp == 0) {
                 cmp = Integer.compare(this.pages, other.pages);
-                cmp = this.title.compareTo(other.title);
             }
         }
         return cmp;
@@ -89,7 +88,7 @@ public class Book implements Comparable<Book> {
          *
          * @param author the author's name, must not be null or empty
          * @return the builder instance
-         * @throws NullPointerException if the author is null
+         * @throws NullPointerException     if the author is null
          * @throws IllegalArgumentException if the author is empty
          */
         public Builder setAuthor(String author) {
@@ -105,7 +104,7 @@ public class Book implements Comparable<Book> {
          *
          * @param title the book title, must not be null or empty
          * @return the builder instance
-         * @throws NullPointerException if the title is null
+         * @throws NullPointerException     if the title is null
          * @throws IllegalArgumentException if the title is empty
          */
         public Builder setTitle(String title) {
