@@ -103,7 +103,7 @@ public class BookRandomGenerator implements RandomGenerator<Book> {
      * @return an integer between {@value MIN_PAGES} and {@value MAX_PAGES}
      */
     private int generatePageCount() {
-        return random.nextInt(500) + 50;
+        return random.nextInt(MAX_PAGES - MIN_PAGES) + MIN_PAGES;
     }
 }
 
