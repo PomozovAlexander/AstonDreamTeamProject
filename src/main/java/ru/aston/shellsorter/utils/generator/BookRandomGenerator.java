@@ -4,6 +4,7 @@ import ru.aston.shellsorter.model.Book;
 
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * Book generator
@@ -76,6 +77,16 @@ public class BookRandomGenerator implements RandomGenerator<Book> {
     }
 
     /**
+     * Generates a new {@link Book} array.
+     *
+     * @return a generated {@link Book} array.
+     */
+    @Override
+    public Book[] generateArray(int length) {
+        return Stream.generate(this::generate).limit(length).toArray(Book[]::new);
+    }
+
+    /**
      * Generates an author combining a randomly chosen name and family.
      *
      * @return a string representing the author's full name
@@ -103,7 +114,7 @@ public class BookRandomGenerator implements RandomGenerator<Book> {
      * @return an integer between {@value MIN_PAGES} and {@value MAX_PAGES}
      */
     private int generatePageCount() {
-        return random.nextInt(500) + 50;
+        return random.nextInt(MAX_PAGES - MIN_PAGES) + MIN_PAGES;
     }
 }
 
