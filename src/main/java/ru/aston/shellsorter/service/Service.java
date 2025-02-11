@@ -6,4 +6,12 @@ public interface Service {
     void fromFileFill(int length);
 
     void manualFill(int length);
+
+    void sort();
+
+    void sortByField(String field);
+
+    String getSortedField();
+
+    boolean isSorted();
 }
