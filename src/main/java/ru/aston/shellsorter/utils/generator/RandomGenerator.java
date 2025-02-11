@@ -14,5 +14,10 @@ public interface RandomGenerator<T> {
      */
     T generate();
 
+    /**
+     * Generates a random objects array of type T.
+     *
+     * @return the generated array.
+     */
     T[] generateArray(int length);
 }

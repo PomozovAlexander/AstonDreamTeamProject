@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * <ul>
  *   <li>Power (from {@value MIN_POWER} to {@value MAX_POWER})</li>
  *   <li>Model (Artemis Motors Falcon, Nova Automotive Voyager, Vanguard Cars Pulsar)</li>
- *   <li>Production Year (between {@value MIN_PRODUCTION_YEAR} and Actual year)</li>
+ *   <li>Production Year (between {@value MIN_PRODUCTION_YEAR} and current year)</li>
  * </ul>
  *
  * <p>Example:</p>
@@ -100,7 +100,7 @@ public class CarRandomGenerator implements RandomGenerator<Car> {
     /**
      * Generates the production year.
      *
-     * @return an integer between {@value MIN_PRODUCTION_YEAR} and Actual year.
+     * @return an integer between {@value MIN_PRODUCTION_YEAR} and current year.
      */
     private int generateProductionYear() {
         return MIN_PRODUCTION_YEAR + random.nextInt(MAX_PRODUCTION_YEAR - MIN_PRODUCTION_YEAR);
