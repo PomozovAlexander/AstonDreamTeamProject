@@ -34,7 +34,7 @@ public final class Book implements Comparable<Book> {
     }
 
     /**
-     * Compares this car to another based on pages, author, and title.
+     * Compares this car to another based on author, title and pages.
      *
      * @param other the book to compare with
      * @return a negative integer, zero, or a positive integer as this book
