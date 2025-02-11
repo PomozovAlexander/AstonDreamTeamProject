@@ -2,14 +2,18 @@ package ru.aston.shellsorter.service;
 
 import ru.aston.shellsorter.model.Book;
 import ru.aston.shellsorter.utils.generator.BookRandomGenerator;
+import ru.aston.shellsorter.utils.sorter.BookComparator;
+import ru.aston.shellsorter.utils.sorter.ShellSorter;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 public class BookService implements Service {
     private Book[] array;
     private boolean sorted = false;
     private String sortedField = "Author"; //default field
+    private static ShellSorter sorter= new ShellSorter();
 
     @Override
     public void randomGeneratedFill(int length) {
@@ -29,8 +33,8 @@ public class BookService implements Service {
 
     @Override
     public void sort() {
-
-        //todo реализовать сортировку без передачи компаратора
+        Comparator<Book> bookComparator= new BookComparator();
+        sorter.sort(array,bookComparator);
 
         System.out.println(Arrays.toString(array)); //sorting result for user
         sorted = true;

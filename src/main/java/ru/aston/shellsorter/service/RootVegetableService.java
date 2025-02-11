@@ -2,14 +2,18 @@ package ru.aston.shellsorter.service;
 
 import ru.aston.shellsorter.model.RootVegetable;
 import ru.aston.shellsorter.utils.generator.RootVegetableRandomGenerator;
+import ru.aston.shellsorter.utils.sorter.RootVegetableColorComparator;
+import ru.aston.shellsorter.utils.sorter.ShellSorter;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 public class RootVegetableService implements Service {
     private RootVegetable[] array;
     private boolean sorted = false;
     private String sortedField = "Weight"; //default field
+    private static ShellSorter sorter= new ShellSorter();
 
     @Override
     public void randomGeneratedFill(int length) {
@@ -30,7 +34,8 @@ public class RootVegetableService implements Service {
     @Override
     public void sort() {
 
-        //todo реализовать сортировку без передачи компаратора
+        Comparator<RootVegetable>comparator= new RootVegetableColorComparator();
+        sorter.sort(array, comparator);
 
         System.out.println(Arrays.toString(array)); //sorting result for user
         sorted = true;

@@ -2,14 +2,19 @@ package ru.aston.shellsorter.service;
 
 import ru.aston.shellsorter.model.Car;
 import ru.aston.shellsorter.utils.generator.CarRandomGenerator;
+import ru.aston.shellsorter.utils.sorter.CarComparator;
+import ru.aston.shellsorter.utils.sorter.ShellSorter;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 public class CarService implements Service {
     private Car[] array;
     private boolean sorted = false;
     private String sortedField = "Power"; //default field
+
+    private static ShellSorter sorter= new ShellSorter();
 
     @Override
     public String getSortedField() {
@@ -35,7 +40,8 @@ public class CarService implements Service {
     @Override
     public void sort() {
 
-        //todo реализовать сортировку без передачи компаратора
+        Comparator<Car> comparator= new CarComparator();
+        sorter.sort(array, comparator);
 
         System.out.println(Arrays.toString(array)); //sorting result for user
         sorted = true;
@@ -43,6 +49,8 @@ public class CarService implements Service {
 
     @Override
     public void sortByField(String field) {
+
+
 
         //todo реализовать сортировку с передачей компаратора в зависимости от сортируемого поля или вызвать реализованную
 
