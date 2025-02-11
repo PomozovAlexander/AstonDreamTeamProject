@@ -135,6 +135,7 @@ public class App {
 //        FinderCarUtil.findCarByProductionYear(cars, year);
 
         //    Сортировка Shell универсальная для T [] array
+
         sorter.sort(rootVegetables, rootVegetableComparator);
         System.out.println("after universal shell sort ");
         Arrays.stream(rootVegetables).forEach(vegetable -> System.out.println(vegetable));
