@@ -13,7 +13,7 @@ import ru.aston.shellsorter.utils.sorter.ShellSorter;
 import java.util.Arrays;
 import java.util.Random;
 
-public class App {
+public class LocalTestApp {
     public static void main(String[] args) {
         System.out.println("Hello world");
         RootVegetableRandomGenerator generator = new RootVegetableRandomGenerator(new Random());
@@ -138,7 +138,7 @@ public class App {
 
         sorter.sort(rootVegetables, rootVegetableComparator);
         System.out.println("after universal shell sort ");
-        Arrays.stream(rootVegetables).forEach(vegetable -> System.out.println(vegetable));
+        Arrays.stream(rootVegetables).forEach(System.out::println);
 
         String type= "Turnip";
         int weight= 1884;
