@@ -3,3 +3,4 @@
 *.iws
 log/
 target/
+src/main/java/ru/aston/shellsorter/App.java
