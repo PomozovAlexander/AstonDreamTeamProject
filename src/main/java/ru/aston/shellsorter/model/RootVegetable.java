@@ -10,7 +10,7 @@ import java.util.Objects;
  * Comparison (Comparable) is performed first by weight, then type, and finally color.
  * </p>
  */
-public class RootVegetable implements Comparable<RootVegetable> {
+public final class RootVegetable implements Comparable<RootVegetable> {
     private final String type;
     private final int weight;
     private final String color;

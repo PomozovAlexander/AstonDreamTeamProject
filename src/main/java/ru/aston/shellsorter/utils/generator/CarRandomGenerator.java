@@ -5,6 +5,7 @@ import ru.aston.shellsorter.model.Car;
 import java.time.Year;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * Car generator
@@ -64,6 +65,16 @@ public class CarRandomGenerator implements RandomGenerator<Car> {
                 .setModel(model)
                 .setProductionYear(productionYear)
                 .build();
+    }
+
+    /**
+     * Generates a new {@link Car} array.
+     *
+     * @return a generated {@link Car} array.
+     */
+    @Override
+    public Car[] generateArray(int length) {
+        return Stream.generate(this::generate).limit(length).toArray(Car[]::new);
     }
 
     /**

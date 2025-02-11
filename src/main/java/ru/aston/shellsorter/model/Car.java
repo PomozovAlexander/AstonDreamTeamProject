@@ -11,7 +11,7 @@ import java.time.Year;
  * Comparison (Comparable) is performed first by power, then by model, and finally by production year.
  * </p>
  */
-public class Car implements Comparable<Car> {
+public final class Car implements Comparable<Car> {
     private final int power;
     private final String model;
     private final int productionYear;

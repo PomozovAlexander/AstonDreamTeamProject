@@ -13,4 +13,6 @@ public interface RandomGenerator<T> {
      * @return the generated object.
      */
     T generate();
+
+    T[] generateArray(int length);
 }
