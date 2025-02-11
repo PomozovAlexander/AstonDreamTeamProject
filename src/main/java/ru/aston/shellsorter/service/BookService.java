@@ -14,4 +14,14 @@ public class BookService implements Service {
         array = new BookRandomGenerator(new Random()).generateArray(length);
         System.out.println(Arrays.toString(array));
     }
+
+    @Override
+    public void fromFileFill(int length) {
+
+    }
+
+    @Override
+    public void manualFill(int length) {
+
+    }
 }

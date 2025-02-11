@@ -13,4 +13,14 @@ public class CarService implements Service {
         array = new CarRandomGenerator(new Random()).generateArray(length);
         System.out.println(Arrays.toString(array));
     }
+
+    @Override
+    public void fromFileFill(int length) {
+
+    }
+
+    @Override
+    public void manualFill(int length) {
+
+    }
 }
