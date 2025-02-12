@@ -3,8 +3,10 @@ package ru.aston.shellsorter.service;
 import ru.aston.shellsorter.model.RootVegetable;
 import ru.aston.shellsorter.utils.cli.RootVegetableArrayCLIBuilder;
 import ru.aston.shellsorter.utils.generator.RootVegetableRandomGenerator;
+import ru.aston.shellsorter.utils.sorter.*;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.Random;
 
@@ -15,6 +17,11 @@ public class RootVegetableService implements Service {
     private RootVegetable[] array;
     private boolean sorted = false;
     private String sortedField = "Weight"; //default field
+    private static ShellSorter sorter= new ShellSorter();
+    private static Comparator<RootVegetable> rootVegetableTypeComparator = new RootVegetableTypeComparator();
+    private static Comparator<RootVegetable> rootVegetableWeightComparator = new RootVegetableWeightComparator();
+    private static Comparator<RootVegetable> rootVegetableColorComparator = new RootVegetableColorComparator();
+
 
     /**
      * Fills the array with randomly generated RootVegetable objects.
@@ -54,7 +61,8 @@ public class RootVegetableService implements Service {
     @Override
     public void sort() {
 
-        //todo реализовать сортировку без передачи компаратора
+        Comparator<RootVegetable>comparator= new RootVegetableColorComparator();
+        sorter.sort(array, comparator);
 
         System.out.println(Arrays.toString(array)); //sorting result for user
         sorted = true;
@@ -67,8 +75,19 @@ public class RootVegetableService implements Service {
      */
     @Override
     public void sortByField(String field) {
-
-        //todo реализовать сортировку с передачей компаратора в зависимости от сортируемого поля или вызвать реализованную
+        switch (field.toLowerCase()) {
+            case "type":
+                sorter.sort(array, rootVegetableTypeComparator);
+                break;
+            case "weight":
+                sorter.sort(array, rootVegetableWeightComparator);
+                break;
+            case "color":
+                sorter.sort(array, rootVegetableColorComparator);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown field");
+        }
 
         System.out.println(Arrays.toString(array)); //sorting result for user
         sorted = true;

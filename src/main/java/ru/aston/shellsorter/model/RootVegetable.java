@@ -42,9 +42,9 @@ public final class RootVegetable implements Comparable<RootVegetable> {
      */
     @Override
     public int compareTo(RootVegetable other) {
-        int cmp = Integer.compare(this.weight, other.weight);
+        int cmp =  this.type.compareTo(other.type);
         if (cmp == 0) {
-            cmp = this.type.compareTo(other.type);
+            cmp = Integer.compare(this.weight, other.weight);
             if (cmp == 0) {
                 cmp = this.color.compareTo(other.color);
             }
