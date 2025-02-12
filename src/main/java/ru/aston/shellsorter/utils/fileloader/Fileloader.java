@@ -1,56 +1,35 @@
 package ru.aston.shellsorter.utils.fileloader;
 
-import ru.aston.shellsorter.model.Book;
-import ru.aston.shellsorter.model.Car;
-import ru.aston.shellsorter.model.RootVegetable;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.Scanner;
 
 public class Fileloader {
+    protected static final String FILE_PATH = "src/main/java/ru/aston/shellsorter/Objects.data";
+    public static Object[] makeObjectsFromFile(int size) {
+//         Если делать красиво, то часть интерфейса конечно же можно вынести в main, если нет времени,
+//         то можно всё оставить так. В любом случае, этот код работает. Единственный случай, когд возникает ошибка -
+//         это когда мы пытаемся сделать десериализацию из файла, которого не существует(он удалён)
 
-    public static Object[] makeObjectsFromFile(int size, String path) {
-        List<Object> newArr = new ArrayList<>();
-        List<String> fromFile = loadFromFile(path);
-        for (String string : fromFile) {
-            if (newArr.size() == size) break;
-            String[] words = string.trim().split("[,\\s]+");
-            if (words.length < 3) {
-                System.err.println("Ошибка: недостаточно данных в строке -> " + string);
-                continue;
-            }
-            try {
-                newArr.add(ObjectFactory.makeObject(words));
-            } catch (Exception e) {
-                System.err.println("Ошибка при создании объекта: " + e.getMessage());
-            }
-        }
-        return newArr.toArray();
-    }
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Выберите действие: " +
+                "\n1 - Сериализация данных " +
+                "\n2 - Десериализация данных " +
+                "\nВвод: ");
 
-    public static List<String> loadFromFile(String filePath) {
-        List<String> arr = new ArrayList<>();
-        try (Scanner scanner = new Scanner(Paths.get(filePath))) {
-            while (scanner.hasNextLine()) {
-                String parts = scanner.nextLine();
-                if (!parts.trim().isEmpty()) {
-                    arr.add(parts);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Ошибка при чтении файла: " + e.getMessage());
-        }
-        return arr;
-    }
 
-    public static boolean isNumeric(String str) {
-        if (str == null || str.trim().isEmpty()) return false;
-        try {
-            Integer.parseInt(str.trim());
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
+        int number = scanner.nextInt();
+        Object[] newObjects;
+
+
+        if (number == 1) {
+            newObjects = RandomObjectGenerator.generateAndSaveObjects(size);
+            Serializer.serializeObjects(newObjects);
+        } else if (number == 2) {
+            newObjects = Deserializer.deserializeObjects(size);
+        } else {
+            System.out.println("Некорректный ввод! Используется сериализация по умолчанию.");
+            newObjects = RandomObjectGenerator.generateAndSaveObjects(size);
+            Serializer.serializeObjects(newObjects);
         }
+        return newObjects;
     }
 }
