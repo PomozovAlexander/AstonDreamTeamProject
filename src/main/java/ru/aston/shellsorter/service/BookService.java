@@ -2,8 +2,7 @@ package ru.aston.shellsorter.service;
 
 import ru.aston.shellsorter.model.Book;
 import ru.aston.shellsorter.utils.generator.BookRandomGenerator;
-import ru.aston.shellsorter.utils.sorter.BookComparator;
-import ru.aston.shellsorter.utils.sorter.ShellSorter;
+import ru.aston.shellsorter.utils.sorter.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -14,6 +13,10 @@ public class BookService implements Service {
     private boolean sorted = false;
     private String sortedField = "Author"; //default field
     private static ShellSorter sorter= new ShellSorter();
+    private static Comparator<Book> bookAuthorComparator = new BookAuthorComparator();
+    private static Comparator<Book> bookTitleComparator = new BookTitleComparator();
+    private static Comparator<Book> bookPagesComparator = new BookPagesComparator();
+
 
     @Override
     public void randomGeneratedFill(int length) {
@@ -43,7 +46,20 @@ public class BookService implements Service {
     @Override
     public void sortByField(String field) {
 
-        //todo реализовать сортировку с передачей компаратора в зависимости от сортируемого поля или вызвать реализованную
+        switch (field.toLowerCase()) {
+            case "author":
+                sorter.sort(array, bookAuthorComparator);
+                break;
+            case "title":
+                sorter.sort(array, bookTitleComparator);
+                break;
+            case "pages":
+                sorter.sort(array, bookPagesComparator);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown field");
+
+        }
 
         System.out.println(Arrays.toString(array)); //sorting result for user
         sorted = true;

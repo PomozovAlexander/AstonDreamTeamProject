@@ -2,8 +2,7 @@ package ru.aston.shellsorter.service;
 
 import ru.aston.shellsorter.model.RootVegetable;
 import ru.aston.shellsorter.utils.generator.RootVegetableRandomGenerator;
-import ru.aston.shellsorter.utils.sorter.RootVegetableColorComparator;
-import ru.aston.shellsorter.utils.sorter.ShellSorter;
+import ru.aston.shellsorter.utils.sorter.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -14,6 +13,10 @@ public class RootVegetableService implements Service {
     private boolean sorted = false;
     private String sortedField = "Weight"; //default field
     private static ShellSorter sorter= new ShellSorter();
+    private static Comparator<RootVegetable> rootVegetableTypeComparator = new RootVegetableTypeComparator();
+    private static Comparator<RootVegetable> rootVegetableWeightComparator = new RootVegetableWeightComparator();
+    private static Comparator<RootVegetable> rootVegetableColorComparator = new RootVegetableColorComparator();
+
 
     @Override
     public void randomGeneratedFill(int length) {
@@ -43,8 +46,19 @@ public class RootVegetableService implements Service {
 
     @Override
     public void sortByField(String field) {
-
-        //todo реализовать сортировку с передачей компаратора в зависимости от сортируемого поля или вызвать реализованную
+        switch (field.toLowerCase()) {
+            case "type":
+                sorter.sort(array, rootVegetableTypeComparator);
+                break;
+            case "weight":
+                sorter.sort(array, rootVegetableWeightComparator);
+                break;
+            case "color":
+                sorter.sort(array, rootVegetableColorComparator);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown field");
+        }
 
         System.out.println(Arrays.toString(array)); //sorting result for user
         sorted = true;

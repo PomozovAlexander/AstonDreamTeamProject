@@ -2,8 +2,7 @@ package ru.aston.shellsorter.service;
 
 import ru.aston.shellsorter.model.Car;
 import ru.aston.shellsorter.utils.generator.CarRandomGenerator;
-import ru.aston.shellsorter.utils.sorter.CarComparator;
-import ru.aston.shellsorter.utils.sorter.ShellSorter;
+import ru.aston.shellsorter.utils.sorter.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -13,8 +12,11 @@ public class CarService implements Service {
     private Car[] array;
     private boolean sorted = false;
     private String sortedField = "Power"; //default field
+    private static Comparator<Car> carPowerComparator = new CarPowerComparator();
+    private static Comparator<Car> carModelComparator = new CarModelComparator();
+    private static Comparator<Car> carProductionYearComparator = new CarProductionYearComparator();
 
-    private static ShellSorter sorter= new ShellSorter();
+    private static ShellSorter sorter = new ShellSorter();
 
     @Override
     public String getSortedField() {
@@ -40,7 +42,7 @@ public class CarService implements Service {
     @Override
     public void sort() {
 
-        Comparator<Car> comparator= new CarComparator();
+        Comparator<Car> comparator = new CarComparator();
         sorter.sort(array, comparator);
 
         System.out.println(Arrays.toString(array)); //sorting result for user
@@ -49,10 +51,19 @@ public class CarService implements Service {
 
     @Override
     public void sortByField(String field) {
-
-
-
-        //todo реализовать сортировку с передачей компаратора в зависимости от сортируемого поля или вызвать реализованную
+        switch (field.toLowerCase()) {
+            case "power":
+                sorter.sort(array, carPowerComparator);
+                break;
+            case "model":
+                sorter.sort(array, carModelComparator);
+                break;
+            case "productionYear":
+                sorter.sort(array, carProductionYearComparator);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown field");
+        }
 
         System.out.println(Arrays.toString(array)); //sorting result for user
         sorted = true;
