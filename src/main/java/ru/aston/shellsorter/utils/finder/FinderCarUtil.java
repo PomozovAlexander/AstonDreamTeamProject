@@ -20,15 +20,17 @@ public class FinderCarUtil {
         if (model.isEmpty()) {
             throw new IllegalArgumentException("You cannot pass empty model name");
         }
-        Comparator comparator = new CarModelComparator();
-        sorter.sort(cars, comparator);
+
+//        Comparator comparator = new CarModelComparator();
+//        sorter.sort(cars, comparator);
+
         int low = 0;
         int high = cars.length - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            int result = cars[mid].getModel().compareTo(model);
+            int result = cars[mid].getModel().compareToIgnoreCase(model);
             if (result == 0) {
-                System.out.println(cars[mid].toString());
+               // System.out.println(cars[mid].toString());
                 return cars[mid];
             } else if (result < 0) {
                 low = mid + 1;
@@ -44,15 +46,16 @@ public class FinderCarUtil {
         if (power<=0) {
             throw new IllegalArgumentException("You cannot pass a negative number or zero");
         }
-        Comparator comparator = new CarPowerComparator();
-        sorter.sort(cars, comparator);
+//        Comparator comparator = new CarPowerComparator();
+//        sorter.sort(cars, comparator);
+
         int low = 0;
         int high = cars.length - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
             int result = Integer.compare(cars[mid].getPower(), power);
             if (result == 0) {
-                System.out.println(cars[mid].toString());
+               // System.out.println(cars[mid].toString());
                 return cars[mid];
             } else if (result < 0) {
                 low = mid + 1;
@@ -67,15 +70,15 @@ public class FinderCarUtil {
         if ((productionYear<1885 ) || (productionYear> Year.now().getValue())) {
             throw new IllegalArgumentException("The car has not yet been invented or does not exist yet");
         }
-        Comparator comparator = new CarProductionYearComparator();
-        sorter.sort(cars, comparator);
+//        Comparator comparator = new CarProductionYearComparator();
+//        sorter.sort(cars, comparator);
         int low = 0;
         int high = cars.length - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
             int result = Integer.compare(cars[mid].getProductionYear(), productionYear);
             if (result == 0) {
-                System.out.println(cars[mid].toString());
+              //  System.out.println(cars[mid].toString());
                 return cars[mid];
             } else if (result < 0) {
                 low = mid + 1;
