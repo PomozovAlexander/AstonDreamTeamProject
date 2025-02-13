@@ -1,12 +1,15 @@
 package ru.aston.shellsorter.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.aston.shellsorter.model.RootVegetable;
 import ru.aston.shellsorter.utils.cli.RootVegetableArrayCLIBuilder;
 import ru.aston.shellsorter.utils.fileloader.FillingArrayWithRootVegetable;
-import ru.aston.shellsorter.utils.finder.FinderBookUtil;
 import ru.aston.shellsorter.utils.finder.FinderRootVegetableUtil;
 import ru.aston.shellsorter.utils.generator.RootVegetableRandomGenerator;
-import ru.aston.shellsorter.utils.sorter.*;
+import ru.aston.shellsorter.utils.sorter.RootVegetableColorComparator;
+import ru.aston.shellsorter.utils.sorter.RootVegetableTypeComparator;
+import ru.aston.shellsorter.utils.sorter.RootVegetableWeightComparator;
+import ru.aston.shellsorter.utils.sorter.ShellSorter;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,21 +17,19 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Random;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.stream.Stream;
 
 /**
  * Service implementation for operations on an array of {@link RootVegetable} objects.
  */
 public class RootVegetableService implements Service {
-    private RootVegetable[] array;
-    private boolean sorted = false;
-    private String sortedField = "Weight"; //default field
     private static ShellSorter sorter = new ShellSorter();
     private static Comparator<RootVegetable> rootVegetableTypeComparator = new RootVegetableTypeComparator();
     private static Comparator<RootVegetable> rootVegetableWeightComparator = new RootVegetableWeightComparator();
     private static Comparator<RootVegetable> rootVegetableColorComparator = new RootVegetableColorComparator();
-
+    private RootVegetable[] array;
+    private boolean sorted = false;
+    private String sortedField = "Type"; //default field
 
     /**
      * Fills the array with randomly generated RootVegetable objects.
@@ -69,10 +70,9 @@ public class RootVegetableService implements Service {
     @Override
     public void sort() {
 
-        Comparator<RootVegetable> comparator = new RootVegetableColorComparator();
-        sorter.sort(array, comparator);
+        sorter.sort(array, rootVegetableTypeComparator);
 
-        System.out.println(Arrays.toString(array)); //sorting result for user
+        Stream.of(array).forEach(System.out::println); //sorting result for user
         sorted = true;
     }
 
@@ -98,7 +98,7 @@ public class RootVegetableService implements Service {
                 throw new IllegalArgumentException("unknown field");
         }
 
-        System.out.println(Arrays.toString(array)); //sorting result for user
+        Stream.of(array).forEach(System.out::println); //sorting result for user
         sorted = true;
         sortedField = field;
     }
@@ -145,7 +145,7 @@ public class RootVegetableService implements Service {
      */
     @Override
     public void print() {
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -157,8 +157,8 @@ public class RootVegetableService implements Service {
         ObjectMapper objectMapper = new ObjectMapper();
 
         File resultsDir = new File("src/main/resources/results");
-        File file = new File(resultsDir, "rootvegetable.json"); 
-        
+        File file = new File(resultsDir, "rootvegetable.json");
+
 
         try {
             objectMapper.writeValue(file, array);

@@ -37,7 +37,7 @@ public final class RootVegetable implements Comparable<RootVegetable> {
     }
 
     /**
-     * Compares this root vegetable with another based on weight, type, and color.
+     * Compares this root vegetable with another based on type, weight, and color.
      *
      * @param other the root vegetable to compare to.
      * @return a negative integer, zero, or a positive integer as this object is less than,
