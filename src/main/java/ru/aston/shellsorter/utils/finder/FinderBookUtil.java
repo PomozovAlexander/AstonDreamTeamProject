@@ -17,15 +17,15 @@ public class FinderBookUtil {
         if (author.isEmpty()) {
             throw new IllegalArgumentException("You cannot pass empty author name");
         }
-        Comparator comparator = new BookAuthorComparator();
-        sorter.sort(books, comparator);
+//        Comparator comparator = new BookAuthorComparator();
+//        sorter.sort(books, comparator);
         int low = 0;
         int high = books.length - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            int result = books[mid].getAuthor().compareTo(author);
+            int result = books[mid].getAuthor().compareToIgnoreCase(author);
             if (result == 0) {
-                System.out.println(books[mid].toString());
+               // System.out.println(books[mid].toString());
                 return books[mid];
             } else if (result < 0) {
                 low = mid + 1;
@@ -42,15 +42,15 @@ public class FinderBookUtil {
             throw new IllegalArgumentException("You cannot pass empty title");
         }
 
-        Comparator comparator = new BookTitleComparator();
-        sorter.sort(books, comparator);
+//        Comparator comparator = new BookTitleComparator();
+//        sorter.sort(books, comparator);
         int low = 0;
         int high = books.length - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            int result = books[mid].getTitle().compareTo(title);
+            int result = books[mid].getTitle().compareToIgnoreCase(title);
             if (result == 0) {
-                System.out.println(books[mid].toString());
+              //  System.out.println(books[mid].toString());
                 return books[mid];
             } else if (result < 0) {
                 low = mid + 1;
@@ -69,15 +69,15 @@ public class FinderBookUtil {
         }
 
 
-        Comparator comparator = new BookPagesComparator();
-        sorter.sort(books, comparator);
+//        Comparator comparator = new BookPagesComparator();
+//        sorter.sort(books, comparator);
         int low = 0;
         int high = books.length - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
             int result = Integer.compare(books[mid].getPages(), pages);
             if (result == 0) {
-                System.out.println(books[mid].toString());
+              //  System.out.println(books[mid].toString());
                 return books[mid];
             } else if (result < 0) {
                 low = mid + 1;

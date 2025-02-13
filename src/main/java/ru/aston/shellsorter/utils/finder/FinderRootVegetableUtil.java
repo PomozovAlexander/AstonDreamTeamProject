@@ -15,15 +15,15 @@ public class FinderRootVegetableUtil {
         if (type.isEmpty()) {
             throw new IllegalArgumentException("You cannot pass empty type name");
         }
-        Comparator comparator = new RootVegetableTypeComparator();
-        sorter.sort(vegetables, comparator);
+//        Comparator comparator = new RootVegetableTypeComparator();
+//        sorter.sort(vegetables, comparator);
         int low = 0;
         int high = vegetables.length - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            int result = vegetables[mid].getType().compareTo(type);
+            int result = vegetables[mid].getType().compareToIgnoreCase(type);
             if (result == 0) {
-                System.out.println(vegetables[mid].toString());
+               // System.out.println(vegetables[mid].toString());
                 return vegetables[mid];
             } else if (result < 0) {
                 low = mid + 1;
@@ -41,15 +41,15 @@ public class FinderRootVegetableUtil {
         }
 
 
-        Comparator comparator = new RootVegetableWeightComparator();
-        sorter.sort(rootVegetables, comparator);
+//        Comparator comparator = new RootVegetableWeightComparator();
+//        sorter.sort(rootVegetables, comparator);
         int low = 0;
         int high = rootVegetables.length - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
             int result = Integer.compare(rootVegetables[mid].getWeight(), weight);
             if (result == 0) {
-                System.out.println(rootVegetables[mid].toString());
+              //  System.out.println(rootVegetables[mid].toString());
                 return rootVegetables[mid];
             } else if (result < 0) {
                 low = mid + 1;
@@ -64,15 +64,15 @@ public class FinderRootVegetableUtil {
         if (color.isEmpty()) {
             throw new IllegalArgumentException("You cannot pass empty color");
         }
-        Comparator comparator = new RootVegetableColorComparator();
-        sorter.sort(vegetables, comparator);
+//        Comparator comparator = new RootVegetableColorComparator();
+//        sorter.sort(vegetables, comparator);
         int low = 0;
         int high = vegetables.length - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            int result = vegetables[mid].getColor().compareTo(color);
+            int result = vegetables[mid].getColor().compareToIgnoreCase(color);
             if (result == 0) {
-                System.out.println(vegetables[mid].toString());
+              //  System.out.println(vegetables[mid].toString());
                 return vegetables[mid];
             } else if (result < 0) {
                 low = mid + 1;

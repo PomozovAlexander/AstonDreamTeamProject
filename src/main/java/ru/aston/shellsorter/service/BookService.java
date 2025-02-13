@@ -2,6 +2,8 @@ package ru.aston.shellsorter.service;
 
 import ru.aston.shellsorter.model.Book;
 import ru.aston.shellsorter.utils.cli.BookArrayCLIBuilder;
+import ru.aston.shellsorter.utils.finder.FinderBookUtil;
+import ru.aston.shellsorter.utils.finder.FinderCarUtil;
 import ru.aston.shellsorter.utils.generator.BookRandomGenerator;
 import ru.aston.shellsorter.utils.sorter.*;
 
@@ -17,7 +19,7 @@ public class BookService implements Service {
     private Book[] array;
     private boolean sorted = false;
     private String sortedField = "Author"; //default field
-    private static ShellSorter sorter= new ShellSorter();
+    private static ShellSorter sorter = new ShellSorter();
     private static Comparator<Book> bookAuthorComparator = new BookAuthorComparator();
     private static Comparator<Book> bookTitleComparator = new BookTitleComparator();
     private static Comparator<Book> bookPagesComparator = new BookPagesComparator();
@@ -60,8 +62,8 @@ public class BookService implements Service {
      */
     @Override
     public void sort() {
-        Comparator<Book> bookComparator= new BookComparator();
-        sorter.sort(array,bookComparator);
+        Comparator<Book> bookComparator = new BookComparator();
+        sorter.sort(array, bookComparator);
 
         System.out.println(Arrays.toString(array)); //sorting result for user
         sorted = true;
@@ -104,7 +106,27 @@ public class BookService implements Service {
     public void search(String request) {
         Optional<Book> searchingResult = Optional.empty(); //внести результат поиска
 
-        //todo вызвать поиск по полю <sortedField>
+        switch (sortedField.toLowerCase()) {
+            case "author":
+                searchingResult = Optional.ofNullable(FinderBookUtil.findBookByAuthor(array, request));
+                break;
+
+            case "title":
+                searchingResult = Optional.ofNullable(FinderBookUtil.findBookByTitle(array, request));
+                break;
+
+            case "pages":
+                int pages = 0;
+                try {
+                    pages = Integer.parseInt(request);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Please, input number og pages");
+                }
+                searchingResult = Optional.ofNullable(FinderBookUtil.findBookByPages(array, pages));
+                break;
+            default:
+                throw new IllegalArgumentException("unknown field");
+        }
 
         searchingResult.ifPresentOrElse(
                 System.out::println,
