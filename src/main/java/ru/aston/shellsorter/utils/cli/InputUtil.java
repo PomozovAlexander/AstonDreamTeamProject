@@ -24,7 +24,7 @@ public final class InputUtil {
             System.out.println(header);
             options.forEach((key, value) -> System.out.printf("[%s] %s%n", key, value));
             System.out.print("Your choice: ");
-            String input = scanner.next().toUpperCase();
+            String input = scanner.nextLine().trim().toUpperCase();
             if (!input.isEmpty() && options.containsKey(input.charAt(0))) {
                 return input.charAt(0);
             }
