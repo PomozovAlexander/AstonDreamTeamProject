@@ -2,13 +2,18 @@ package ru.aston.shellsorter.service;
 
 import ru.aston.shellsorter.model.Car;
 import ru.aston.shellsorter.utils.cli.CarArrayCLIBuilder;
+import ru.aston.shellsorter.utils.fileloader.FillingArrayWithCar;
 import ru.aston.shellsorter.utils.generator.CarRandomGenerator;
 import ru.aston.shellsorter.utils.sorter.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Random;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Service implementation for operations on an array of {@link Car} objects.
@@ -41,7 +46,8 @@ public class CarService implements Service {
      */
     @Override
     public void fromFileFill(int length) {
-
+        array = FillingArrayWithCar.buildCarArrayFromJson(length);
+        System.out.println(Arrays.toString(array));
     }
 
     /**
@@ -82,7 +88,7 @@ public class CarService implements Service {
             case "model":
                 sorter.sort(array, carModelComparator);
                 break;
-            case "productionYear":
+            case "production year":
                 sorter.sort(array, carProductionYearComparator);
                 break;
             default:
@@ -125,7 +131,17 @@ public class CarService implements Service {
     @Override
     public void save() {
 
-        //TODO: Реализовать сохранение в файл
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        File resultsDir = new File("src/main/resources/results");
+        File file = new File(resultsDir, "car.json"); 
+        
+
+        try {
+            objectMapper.writeValue(file, array);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
