@@ -3,6 +3,10 @@ package ru.aston.shellsorter.model;
 import java.util.Objects;
 import java.time.Year;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
 /**
  * Class representing a Car.
  * <p>
@@ -140,5 +144,15 @@ public final class Car implements Comparable<Car> {
         public Car build() {
             return new Car(this);
         }
+    }
+
+    @JsonCreator
+    public Car(
+            @JsonProperty("power") int power,
+            @JsonProperty("model") String model,
+            @JsonProperty("productionYear") int productionYear) {
+        this.power = power;
+        this.model = model;
+        this.productionYear = productionYear;
     }
 }
