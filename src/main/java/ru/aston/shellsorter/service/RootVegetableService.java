@@ -23,10 +23,10 @@ import java.util.stream.Stream;
  * Service implementation for operations on an array of {@link RootVegetable} objects.
  */
 public class RootVegetableService implements Service {
-    private static ShellSorter sorter = new ShellSorter();
-    private static Comparator<RootVegetable> rootVegetableTypeComparator = new RootVegetableTypeComparator();
-    private static Comparator<RootVegetable> rootVegetableWeightComparator = new RootVegetableWeightComparator();
-    private static Comparator<RootVegetable> rootVegetableColorComparator = new RootVegetableColorComparator();
+    private static final ShellSorter sorter = new ShellSorter();
+    private static final Comparator<RootVegetable> rootVegetableTypeComparator = new RootVegetableTypeComparator();
+    private static final Comparator<RootVegetable> rootVegetableWeightComparator = new RootVegetableWeightComparator();
+    private static final Comparator<RootVegetable> rootVegetableColorComparator = new RootVegetableColorComparator();
     private RootVegetable[] array;
     private boolean sorted = false;
     private String sortedField = "Type"; //default field
@@ -39,7 +39,8 @@ public class RootVegetableService implements Service {
     @Override
     public void randomGeneratedFill(int length) {
         array = new RootVegetableRandomGenerator(new Random()).generateArray(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -50,7 +51,8 @@ public class RootVegetableService implements Service {
     @Override
     public void fromFileFill(int length) {
         array = FillingArrayWithRootVegetable.buildRootVegetableArrayFromJson(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -61,7 +63,8 @@ public class RootVegetableService implements Service {
     @Override
     public void manualFill(int length) {
         array = RootVegetableArrayCLIBuilder.buildRootVegetableArrayFromCLI(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -110,7 +113,7 @@ public class RootVegetableService implements Service {
      */
     @Override
     public void search(String request) {
-        Optional<RootVegetable> searchingResult = Optional.empty(); //внести результат поиска
+        Optional<RootVegetable> searchingResult;
 
         switch (sortedField.toLowerCase()) {
             case "type":
@@ -136,7 +139,7 @@ public class RootVegetableService implements Service {
 
         searchingResult.ifPresentOrElse(
                 System.out::println,
-                () -> System.out.printf("Nothing found for your request %s%n.", request)
+                () -> System.out.printf("Nothing found for your request %s%n", request)
         );
     }
 

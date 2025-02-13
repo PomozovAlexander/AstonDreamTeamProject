@@ -1,35 +1,32 @@
 package ru.aston.shellsorter.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.aston.shellsorter.model.Book;
 import ru.aston.shellsorter.utils.cli.BookArrayCLIBuilder;
 import ru.aston.shellsorter.utils.fileloader.FillingArrayWithBook;
 import ru.aston.shellsorter.utils.finder.FinderBookUtil;
-import ru.aston.shellsorter.utils.finder.FinderCarUtil;
 import ru.aston.shellsorter.utils.generator.BookRandomGenerator;
 import ru.aston.shellsorter.utils.sorter.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Random;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.stream.Stream;
 
 
 /**
  * Service implementation for operations on an array of {@link Book} objects.
  */
 public class BookService implements Service {
+    private static final ShellSorter sorter = new ShellSorter();
+    private static final Comparator<Book> bookAuthorComparator = new BookAuthorComparator();
+    private static final Comparator<Book> bookTitleComparator = new BookTitleComparator();
+    private static final Comparator<Book> bookPagesComparator = new BookPagesComparator();
     private Book[] array;
     private boolean sorted = false;
     private String sortedField = "Author"; //default field
-    private static ShellSorter sorter = new ShellSorter();
-    private static Comparator<Book> bookAuthorComparator = new BookAuthorComparator();
-    private static Comparator<Book> bookTitleComparator = new BookTitleComparator();
-    private static Comparator<Book> bookPagesComparator = new BookPagesComparator();
-
 
     /**
      * Fills the array with randomly generated Book objects.
@@ -39,7 +36,8 @@ public class BookService implements Service {
     @Override
     public void randomGeneratedFill(int length) {
         array = new BookRandomGenerator(new Random()).generateArray(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -50,7 +48,8 @@ public class BookService implements Service {
     @Override
     public void fromFileFill(int length) {
         array = FillingArrayWithBook.buildBookArrayFromJson(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -61,7 +60,8 @@ public class BookService implements Service {
     @Override
     public void manualFill(int length) {
         array = BookArrayCLIBuilder.buildBookArrayFromCLI(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -72,7 +72,7 @@ public class BookService implements Service {
         Comparator<Book> bookComparator = new BookComparator();
         sorter.sort(array, bookComparator);
 
-        System.out.println(Arrays.toString(array)); //sorting result for user
+        Stream.of(array).forEach(System.out::println); //sorting result for user
         sorted = true;
     }
 
@@ -99,7 +99,7 @@ public class BookService implements Service {
 
         }
 
-        System.out.println(Arrays.toString(array)); //sorting result for user
+        Stream.of(array).forEach(System.out::println); //sorting result for user
         sorted = true;
         sortedField = field;
     }
@@ -111,7 +111,7 @@ public class BookService implements Service {
      */
     @Override
     public void search(String request) {
-        Optional<Book> searchingResult = Optional.empty(); //внести результат поиска
+        Optional<Book> searchingResult; //внести результат поиска
 
         switch (sortedField.toLowerCase()) {
             case "author":
@@ -137,7 +137,7 @@ public class BookService implements Service {
 
         searchingResult.ifPresentOrElse(
                 System.out::println,
-                () -> System.out.printf("Nothing found for your request %s%n.", request)
+                () -> System.out.printf("Nothing found for your request %s%n", request)
         );
     }
 
@@ -146,7 +146,7 @@ public class BookService implements Service {
      */
     @Override
     public void print() {
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -158,8 +158,8 @@ public class BookService implements Service {
         ObjectMapper objectMapper = new ObjectMapper();
 
         File resultsDir = new File("src/main/resources/results");
-        File file = new File(resultsDir, "book.json"); 
-        
+        File file = new File(resultsDir, "book.json");
+
 
         try {
             objectMapper.writeValue(file, array);

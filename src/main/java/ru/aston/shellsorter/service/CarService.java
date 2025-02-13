@@ -1,5 +1,6 @@
 package ru.aston.shellsorter.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.aston.shellsorter.model.Car;
 import ru.aston.shellsorter.utils.cli.CarArrayCLIBuilder;
 import ru.aston.shellsorter.utils.fileloader.FillingArrayWithCar;
@@ -9,27 +10,22 @@ import ru.aston.shellsorter.utils.sorter.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Random;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.stream.Stream;
 
 /**
  * Service implementation for operations on an array of {@link Car} objects.
  */
 public class CarService implements Service {
+    private static final Comparator<Car> carPowerComparator = new CarPowerComparator();
+    private static final Comparator<Car> carModelComparator = new CarModelComparator();
+    private static final Comparator<Car> carProductionYearComparator = new CarProductionYearComparator();
+    private static final ShellSorter sorter = new ShellSorter();
     private Car[] array;
     private boolean sorted = false;
     private String sortedField = "Power"; //default field
-    private static Comparator<Car> carPowerComparator = new CarPowerComparator();
-    private static Comparator<Car> carModelComparator = new CarModelComparator();
-    private static Comparator<Car> carProductionYearComparator = new CarProductionYearComparator();
-
-
-    private static ShellSorter sorter = new ShellSorter();
-    private static FinderCarUtil finderCarUtil = new FinderCarUtil();
 
     /**
      * Fills the array with randomly generated Car objects.
@@ -39,7 +35,8 @@ public class CarService implements Service {
     @Override
     public void randomGeneratedFill(int length) {
         array = new CarRandomGenerator(new Random()).generateArray(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -50,7 +47,8 @@ public class CarService implements Service {
     @Override
     public void fromFileFill(int length) {
         array = FillingArrayWithCar.buildCarArrayFromJson(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -61,7 +59,8 @@ public class CarService implements Service {
     @Override
     public void manualFill(int length) {
         array = CarArrayCLIBuilder.buildCarArrayFromCLI(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -73,7 +72,7 @@ public class CarService implements Service {
         Comparator<Car> comparator = new CarComparator();
         sorter.sort(array, comparator);
 
-        System.out.println(Arrays.toString(array)); //sorting result for user
+        Stream.of(array).forEach(System.out::println); //sorting result for user
         sorted = true;
     }
 
@@ -98,7 +97,7 @@ public class CarService implements Service {
                 throw new IllegalArgumentException("unknown field");
         }
 
-        System.out.println(Arrays.toString(array)); //sorting result for user
+        Stream.of(array).forEach(System.out::println); //sorting result for user
         sorted = true;
         sortedField = field;
     }
@@ -112,17 +111,17 @@ public class CarService implements Service {
     public void search(String request) {
 
 
-        Optional<Car> searchingResult = Optional.empty(); //внести результат поиска
+        Optional<Car> searchingResult;
 
         switch (sortedField.toLowerCase()) {
             case "power":
-                int power= 0;
+                int power = 0;
                 try {
                     power = Integer.parseInt(request);
                 } catch (NumberFormatException e) {
                     throw new IllegalArgumentException("Please, input power");
                 }
-                    searchingResult = Optional.ofNullable(FinderCarUtil.findCarByPower(array, power));
+                searchingResult = Optional.ofNullable(FinderCarUtil.findCarByPower(array, power));
                 break;
 
             case "model":
@@ -131,7 +130,7 @@ public class CarService implements Service {
                 break;
 
             case "production year":
-                int year= 0;
+                int year = 0;
                 try {
                     year = Integer.parseInt(request);
                 } catch (NumberFormatException e) {
@@ -146,7 +145,7 @@ public class CarService implements Service {
 
         searchingResult.ifPresentOrElse(
                 System.out::println,
-                () -> System.out.printf("Nothing found for your request %s%n.", request)
+                () -> System.out.printf("Nothing found for your request %s%n", request)
         );
     }
 
@@ -155,7 +154,7 @@ public class CarService implements Service {
      */
     @Override
     public void print() {
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -167,8 +166,8 @@ public class CarService implements Service {
         ObjectMapper objectMapper = new ObjectMapper();
 
         File resultsDir = new File("src/main/resources/results");
-        File file = new File(resultsDir, "car.json"); 
-        
+        File file = new File(resultsDir, "car.json");
+
 
         try {
             objectMapper.writeValue(file, array);
