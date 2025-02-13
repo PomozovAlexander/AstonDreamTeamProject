@@ -23,8 +23,8 @@ public class SortingStrategy implements Strategy {
             3, "Pages"
     );
     private static final Map<Integer, String> ROOT_VEGETABLE_FIELDS = Map.of(
-            1, "Weight", //default
-            2, "Type",
+            1, "Type", //default
+            2, "Weight",
             3, "Color"
     );
     private static final Map<String, Map<Integer, String>> FIELDS = Map.of(
