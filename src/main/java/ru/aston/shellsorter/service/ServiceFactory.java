@@ -2,6 +2,9 @@ package ru.aston.shellsorter.service;
 
 import java.util.Map;
 
+/**
+ * A factory class to manage different services.
+ */
 public final class ServiceFactory {
     private static final Map<String, Service> serviceOptions = Map.of(
             "Book", new BookService(),
@@ -23,10 +26,12 @@ public final class ServiceFactory {
         return actualService;
     }
 
+    /**
+     * This method sets the actual service by the type.
+     *
+     * @param type the key to choose the service.
+     */
     public static void setActualService(String type) {
-        if (actualService != null) {
-            throw new UnsupportedOperationException("Actual Service must not be changed!");
-        }
         if (!serviceOptions.containsKey(type)) {
             throw new IllegalArgumentException("No service found for key: " + type);
         }

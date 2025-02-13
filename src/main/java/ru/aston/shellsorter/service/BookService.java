@@ -37,6 +37,7 @@ public class BookService implements Service {
     public void randomGeneratedFill(int length) {
         array = new BookRandomGenerator(new Random()).generateArray(length);
         Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -48,6 +49,7 @@ public class BookService implements Service {
     public void fromFileFill(int length) {
         array = FillingArrayWithBook.buildBookArrayFromJson(length);
         Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -59,6 +61,7 @@ public class BookService implements Service {
     public void manualFill(int length) {
         array = BookArrayCLIBuilder.buildBookArrayFromCLI(length);
         Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**

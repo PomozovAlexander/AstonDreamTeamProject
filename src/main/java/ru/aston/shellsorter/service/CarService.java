@@ -36,6 +36,7 @@ public class CarService implements Service {
     public void randomGeneratedFill(int length) {
         array = new CarRandomGenerator(new Random()).generateArray(length);
         Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -47,6 +48,7 @@ public class CarService implements Service {
     public void fromFileFill(int length) {
         array = FillingArrayWithCar.buildCarArrayFromJson(length);
         Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -58,6 +60,7 @@ public class CarService implements Service {
     public void manualFill(int length) {
         array = CarArrayCLIBuilder.buildCarArrayFromCLI(length);
         Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**

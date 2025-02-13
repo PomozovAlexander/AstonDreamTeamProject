@@ -40,6 +40,7 @@ public class RootVegetableService implements Service {
     public void randomGeneratedFill(int length) {
         array = new RootVegetableRandomGenerator(new Random()).generateArray(length);
         Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -51,6 +52,7 @@ public class RootVegetableService implements Service {
     public void fromFileFill(int length) {
         array = FillingArrayWithRootVegetable.buildRootVegetableArrayFromJson(length);
         Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
@@ -62,6 +64,7 @@ public class RootVegetableService implements Service {
     public void manualFill(int length) {
         array = RootVegetableArrayCLIBuilder.buildRootVegetableArrayFromCLI(length);
         Stream.of(array).forEach(System.out::println);
+        sorted = false;
     }
 
     /**
