@@ -2,6 +2,9 @@ package ru.aston.shellsorter.model;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Class representing a RootVegetable
  * <p>
@@ -139,5 +142,15 @@ public final class RootVegetable implements Comparable<RootVegetable> {
         public RootVegetable build() {
             return new RootVegetable(this);
         }
+    }
+
+    @JsonCreator
+    public RootVegetable(
+            @JsonProperty("type") String type,
+            @JsonProperty("weight") int weight,
+            @JsonProperty("color") String color) {
+        this.type = type;
+        this.weight = weight;
+        this.color = color;
     }
 }

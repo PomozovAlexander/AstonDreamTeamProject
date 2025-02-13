@@ -2,15 +2,21 @@ package ru.aston.shellsorter.service;
 
 import ru.aston.shellsorter.model.Book;
 import ru.aston.shellsorter.utils.cli.BookArrayCLIBuilder;
+import ru.aston.shellsorter.utils.fileloader.FillingArrayWithBook;
 import ru.aston.shellsorter.utils.finder.FinderBookUtil;
 import ru.aston.shellsorter.utils.finder.FinderCarUtil;
 import ru.aston.shellsorter.utils.generator.BookRandomGenerator;
 import ru.aston.shellsorter.utils.sorter.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Random;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 /**
  * Service implementation for operations on an array of {@link Book} objects.
@@ -43,7 +49,8 @@ public class BookService implements Service {
      */
     @Override
     public void fromFileFill(int length) {
-
+        array = FillingArrayWithBook.buildBookArrayFromJson(length);
+        System.out.println(Arrays.toString(array));
     }
 
     /**
@@ -148,7 +155,17 @@ public class BookService implements Service {
     @Override
     public void save() {
 
-        //TODO: Реализовать сохранение в файл
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        File resultsDir = new File("src/main/resources/results");
+        File file = new File(resultsDir, "book.json"); 
+        
+
+        try {
+            objectMapper.writeValue(file, array);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

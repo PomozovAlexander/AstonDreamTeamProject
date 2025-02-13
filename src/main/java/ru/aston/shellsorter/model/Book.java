@@ -2,6 +2,9 @@ package ru.aston.shellsorter.model;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Class representing a Book.
  * <p>
@@ -138,5 +141,15 @@ public final class Book implements Comparable<Book> {
         public Book build() {
             return new Book(this);
         }
+    }
+
+    @JsonCreator
+    public Book(
+            @JsonProperty("author") String author,
+            @JsonProperty("title") String title,
+            @JsonProperty("pages") int pages) {
+        this.author = author;
+        this.title = title;
+        this.pages = pages;
     }
 }

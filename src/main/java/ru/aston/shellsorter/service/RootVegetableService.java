@@ -2,15 +2,20 @@ package ru.aston.shellsorter.service;
 
 import ru.aston.shellsorter.model.RootVegetable;
 import ru.aston.shellsorter.utils.cli.RootVegetableArrayCLIBuilder;
+import ru.aston.shellsorter.utils.fileloader.FillingArrayWithRootVegetable;
 import ru.aston.shellsorter.utils.finder.FinderBookUtil;
 import ru.aston.shellsorter.utils.finder.FinderRootVegetableUtil;
 import ru.aston.shellsorter.utils.generator.RootVegetableRandomGenerator;
 import ru.aston.shellsorter.utils.sorter.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Random;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Service implementation for operations on an array of {@link RootVegetable} objects.
@@ -43,7 +48,8 @@ public class RootVegetableService implements Service {
      */
     @Override
     public void fromFileFill(int length) {
-
+        array = FillingArrayWithRootVegetable.buildRootVegetableArrayFromJson(length);
+        System.out.println(Arrays.toString(array));
     }
 
     /**
@@ -148,7 +154,17 @@ public class RootVegetableService implements Service {
     @Override
     public void save() {
 
-        //TODO: Реализовать сохранение в файл
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        File resultsDir = new File("src/main/resources/results");
+        File file = new File(resultsDir, "rootvegetable.json"); 
+        
+
+        try {
+            objectMapper.writeValue(file, array);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
