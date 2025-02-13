@@ -3,6 +3,8 @@ package ru.aston.shellsorter.service;
 import ru.aston.shellsorter.model.Book;
 import ru.aston.shellsorter.utils.cli.BookArrayCLIBuilder;
 import ru.aston.shellsorter.utils.fileloader.FillingArrayWithBook;
+import ru.aston.shellsorter.utils.finder.FinderBookUtil;
+import ru.aston.shellsorter.utils.finder.FinderCarUtil;
 import ru.aston.shellsorter.utils.generator.BookRandomGenerator;
 import ru.aston.shellsorter.utils.sorter.*;
 
@@ -111,7 +113,27 @@ public class BookService implements Service {
     public void search(String request) {
         Optional<Book> searchingResult = Optional.empty(); //внести результат поиска
 
-        //todo вызвать поиск по полю <sortedField>
+        switch (sortedField.toLowerCase()) {
+            case "author":
+                searchingResult = Optional.ofNullable(FinderBookUtil.findBookByAuthor(array, request));
+                break;
+
+            case "title":
+                searchingResult = Optional.ofNullable(FinderBookUtil.findBookByTitle(array, request));
+                break;
+
+            case "pages":
+                int pages = 0;
+                try {
+                    pages = Integer.parseInt(request);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Please, input number og pages");
+                }
+                searchingResult = Optional.ofNullable(FinderBookUtil.findBookByPages(array, pages));
+                break;
+            default:
+                throw new IllegalArgumentException("unknown field");
+        }
 
         searchingResult.ifPresentOrElse(
                 System.out::println,

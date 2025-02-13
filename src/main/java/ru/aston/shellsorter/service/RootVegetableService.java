@@ -3,6 +3,8 @@ package ru.aston.shellsorter.service;
 import ru.aston.shellsorter.model.RootVegetable;
 import ru.aston.shellsorter.utils.cli.RootVegetableArrayCLIBuilder;
 import ru.aston.shellsorter.utils.fileloader.FillingArrayWithRootVegetable;
+import ru.aston.shellsorter.utils.finder.FinderBookUtil;
+import ru.aston.shellsorter.utils.finder.FinderRootVegetableUtil;
 import ru.aston.shellsorter.utils.generator.RootVegetableRandomGenerator;
 import ru.aston.shellsorter.utils.sorter.*;
 
@@ -22,7 +24,7 @@ public class RootVegetableService implements Service {
     private RootVegetable[] array;
     private boolean sorted = false;
     private String sortedField = "Weight"; //default field
-    private static ShellSorter sorter= new ShellSorter();
+    private static ShellSorter sorter = new ShellSorter();
     private static Comparator<RootVegetable> rootVegetableTypeComparator = new RootVegetableTypeComparator();
     private static Comparator<RootVegetable> rootVegetableWeightComparator = new RootVegetableWeightComparator();
     private static Comparator<RootVegetable> rootVegetableColorComparator = new RootVegetableColorComparator();
@@ -67,7 +69,7 @@ public class RootVegetableService implements Service {
     @Override
     public void sort() {
 
-        Comparator<RootVegetable>comparator= new RootVegetableColorComparator();
+        Comparator<RootVegetable> comparator = new RootVegetableColorComparator();
         sorter.sort(array, comparator);
 
         System.out.println(Arrays.toString(array)); //sorting result for user
@@ -87,6 +89,7 @@ public class RootVegetableService implements Service {
                 break;
             case "weight":
                 sorter.sort(array, rootVegetableWeightComparator);
+                System.out.println(Arrays.toString(array));
                 break;
             case "color":
                 sorter.sort(array, rootVegetableColorComparator);
@@ -109,7 +112,27 @@ public class RootVegetableService implements Service {
     public void search(String request) {
         Optional<RootVegetable> searchingResult = Optional.empty(); //внести результат поиска
 
-        //todo вызвать поиск по полю <sortedField>
+        switch (sortedField.toLowerCase()) {
+            case "type":
+                searchingResult = Optional.ofNullable(FinderRootVegetableUtil.findRootVegetableByType(array, request));
+                break;
+
+            case "color":
+                searchingResult = Optional.ofNullable(FinderRootVegetableUtil.findRootVegetableByColor(array, request));
+                break;
+
+            case "weight":
+                int weight = 0;
+                try {
+                    weight = Integer.parseInt(request);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Please, input weight");
+                }
+                searchingResult = Optional.ofNullable(FinderRootVegetableUtil.findRootVegetableByWeight(array, weight));
+                break;
+            default:
+                throw new IllegalArgumentException("unknown field");
+        }
 
         searchingResult.ifPresentOrElse(
                 System.out::println,

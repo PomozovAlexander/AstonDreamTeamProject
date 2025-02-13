@@ -3,6 +3,7 @@ package ru.aston.shellsorter.service;
 import ru.aston.shellsorter.model.Car;
 import ru.aston.shellsorter.utils.cli.CarArrayCLIBuilder;
 import ru.aston.shellsorter.utils.fileloader.FillingArrayWithCar;
+import ru.aston.shellsorter.utils.finder.FinderCarUtil;
 import ru.aston.shellsorter.utils.generator.CarRandomGenerator;
 import ru.aston.shellsorter.utils.sorter.*;
 
@@ -26,7 +27,9 @@ public class CarService implements Service {
     private static Comparator<Car> carModelComparator = new CarModelComparator();
     private static Comparator<Car> carProductionYearComparator = new CarProductionYearComparator();
 
+
     private static ShellSorter sorter = new ShellSorter();
+    private static FinderCarUtil finderCarUtil = new FinderCarUtil();
 
     /**
      * Fills the array with randomly generated Car objects.
@@ -107,9 +110,39 @@ public class CarService implements Service {
      */
     @Override
     public void search(String request) {
+
+
         Optional<Car> searchingResult = Optional.empty(); //внести результат поиска
 
-        //todo вызвать поиск по полю <sortedField>
+        switch (sortedField.toLowerCase()) {
+            case "power":
+                int power= 0;
+                try {
+                    power = Integer.parseInt(request);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Please, input power");
+                }
+                    searchingResult = Optional.ofNullable(FinderCarUtil.findCarByPower(array, power));
+                break;
+
+            case "model":
+
+                searchingResult = Optional.ofNullable(FinderCarUtil.findCarByModel(array, request));
+                break;
+
+            case "production year":
+                int year= 0;
+                try {
+                    year = Integer.parseInt(request);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Please, input year");
+                }
+                searchingResult = Optional.ofNullable(FinderCarUtil.findCarByPower(array, year));
+                break;
+            default:
+                throw new IllegalArgumentException("unknown field");
+        }
+
 
         searchingResult.ifPresentOrElse(
                 System.out::println,
