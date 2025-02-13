@@ -1,0 +1,23 @@
+[
+    {
+      "type": "Carrot",
+      "weight": 150,
+      "color": "Orange"
+    },
+    {
+      "type": "Beetroot",
+      "weight": 200,
+      "color": "Red"
+    },
+    {
+      "type": "Turnip",
+      "weight": 180,
+      "color": "White"
+    },
+    {
+      "type": "Sweet Potato",
+      "weight": 300,
+      "color": "Orange"
+    }
+  ]
+  

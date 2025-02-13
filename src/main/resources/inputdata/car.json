@@ -1,0 +1,18 @@
+[
+    {
+      "power": 450,
+      "model": "Toyota Camry",
+      "productionYear": 2020
+    },
+    {
+      "power": 200,
+      "model": "BMW 3 Series",
+      "productionYear": 2021
+    },
+    {
+      "power": 300,
+      "model": "Audi A6",
+      "productionYear": 2022
+    }
+  ]
+  
