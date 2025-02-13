@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,7 +40,7 @@ public class CarService implements Service {
     @Override
     public void randomGeneratedFill(int length) {
         array = new CarRandomGenerator(new Random()).generateArray(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -50,7 +51,7 @@ public class CarService implements Service {
     @Override
     public void fromFileFill(int length) {
         array = FillingArrayWithCar.buildCarArrayFromJson(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -61,7 +62,7 @@ public class CarService implements Service {
     @Override
     public void manualFill(int length) {
         array = CarArrayCLIBuilder.buildCarArrayFromCLI(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -73,7 +74,7 @@ public class CarService implements Service {
         Comparator<Car> comparator = new CarComparator();
         sorter.sort(array, comparator);
 
-        System.out.println(Arrays.toString(array)); //sorting result for user
+        Stream.of(array).forEach(System.out::println); //sorting result for user
         sorted = true;
     }
 
@@ -98,7 +99,7 @@ public class CarService implements Service {
                 throw new IllegalArgumentException("unknown field");
         }
 
-        System.out.println(Arrays.toString(array)); //sorting result for user
+        Stream.of(array).forEach(System.out::println); //sorting result for user
         sorted = true;
         sortedField = field;
     }
@@ -155,7 +156,7 @@ public class CarService implements Service {
      */
     @Override
     public void print() {
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**

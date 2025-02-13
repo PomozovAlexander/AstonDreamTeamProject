@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,7 +40,7 @@ public class BookService implements Service {
     @Override
     public void randomGeneratedFill(int length) {
         array = new BookRandomGenerator(new Random()).generateArray(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -50,7 +51,7 @@ public class BookService implements Service {
     @Override
     public void fromFileFill(int length) {
         array = FillingArrayWithBook.buildBookArrayFromJson(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -61,7 +62,7 @@ public class BookService implements Service {
     @Override
     public void manualFill(int length) {
         array = BookArrayCLIBuilder.buildBookArrayFromCLI(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -72,7 +73,7 @@ public class BookService implements Service {
         Comparator<Book> bookComparator = new BookComparator();
         sorter.sort(array, bookComparator);
 
-        System.out.println(Arrays.toString(array)); //sorting result for user
+        Stream.of(array).forEach(System.out::println); //sorting result for user
         sorted = true;
     }
 
@@ -99,7 +100,7 @@ public class BookService implements Service {
 
         }
 
-        System.out.println(Arrays.toString(array)); //sorting result for user
+        Stream.of(array).forEach(System.out::println); //sorting result for user
         sorted = true;
         sortedField = field;
     }
@@ -111,7 +112,7 @@ public class BookService implements Service {
      */
     @Override
     public void search(String request) {
-        Optional<Book> searchingResult = Optional.empty(); //внести результат поиска
+        Optional<Book> searchingResult; //внести результат поиска
 
         switch (sortedField.toLowerCase()) {
             case "author":
@@ -146,7 +147,7 @@ public class BookService implements Service {
      */
     @Override
     public void print() {
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**

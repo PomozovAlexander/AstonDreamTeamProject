@@ -39,7 +39,7 @@ public class RootVegetableService implements Service {
     @Override
     public void randomGeneratedFill(int length) {
         array = new RootVegetableRandomGenerator(new Random()).generateArray(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -50,7 +50,7 @@ public class RootVegetableService implements Service {
     @Override
     public void fromFileFill(int length) {
         array = FillingArrayWithRootVegetable.buildRootVegetableArrayFromJson(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
@@ -61,7 +61,7 @@ public class RootVegetableService implements Service {
     @Override
     public void manualFill(int length) {
         array = RootVegetableArrayCLIBuilder.buildRootVegetableArrayFromCLI(length);
-        System.out.println(Arrays.toString(array));
+        Stream.of(array).forEach(System.out::println);
     }
 
     /**
